@@ -95,4 +95,12 @@ BTN_FULLSCREEN.addEventListener('click', (event) =>{
     } else {
         document.documentElement.requestFullscreen();
     }
-})
+}) 
+
+document.addEventListener('keydown', function(event){
+    if(document.fullscreenElement && !event.repeat){
+        if(event.keyCode === 27){
+            document.exitFullscreen();
+        }
+    }
+}); 

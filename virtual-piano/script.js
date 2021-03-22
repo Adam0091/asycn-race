@@ -37,11 +37,10 @@ const stopListener = () =>{
 }
 
 PIANO.addEventListener("mousedown", startListener, false);
-PIANO.addEventListener("mouseup", stopListener);
+document.addEventListener("mouseup", stopListener);
 
 // Реализация переключения с letter  на note и на оборот
 //////////////////////////////////////////////////////////////////////
-
 const BTN_LETTERS = document.querySelector(".btn-letters");
 const BTN_NOTES = document.querySelector(".btn-notes");
 

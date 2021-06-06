@@ -1,0 +1,38 @@
+{
+  "name": "async-race-api",
+  "version": "1.0.0",
+  "description": "Fun with promises",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "webpack",
+    "lint": "eslint ./**/*.ts",
+    "start_app": "webpack serve"
+  },
+  "author": "mikhama",
+  "license": "MIT",
+  "dependencies": {
+    "normalize.css": "^8.0.1",
+    "package": "^1.0.1"
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "clean-webpack-plugin": "*",
+    "css-loader": "^5.2.4",
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.1",
+    "sass": "^1.32.12",
+    "sass-loader": "^11.0.1",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^9.1.1",
+    "typescript": "^4.2.4",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}

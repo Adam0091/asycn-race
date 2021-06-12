@@ -13,6 +13,8 @@ export class Header {
     private drawNav():void {
         const header__nav = createAndAppendHtmlElement( this.header, "nav", "header__nav" );
         const nav__garage_btn = createAndAppendHtmlElement( header__nav, "button", "nav__garage_btn", "TO GARAGE" );
+        nav__garage_btn.classList.add("button");
         const nav__winners_btn = createAndAppendHtmlElement( header__nav, "button", "nav__winners_btn", "TO WINNERS" );
+        nav__winners_btn.classList.add("button");
     }
 }

@@ -12,11 +12,11 @@
   "author": "mikhama",
   "license": "MIT",
   "dependencies": {
+    "json-server": "^0.16.3",
     "normalize.css": "^8.0.1",
     "package": "^1.0.1"
   },
   "devDependencies": {
-    "json-server": "^0.16.3",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
     "clean-webpack-plugin": "*",

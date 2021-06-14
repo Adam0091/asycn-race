@@ -1,7 +1,8 @@
-//@import "./base/zeroing.scss";
+@import "./base//zeroing.scss";
 @import "./base/base.scss";
+@import "./base//fonts.scss";
+@import "./layout/header.scss";
+@import "./layout/controlPanel.scss";
+@import "./layout/garage.scss";
+@import "./layout/machine.scss";
 
-body {
-    background-color: black;
-    color: white;
-}

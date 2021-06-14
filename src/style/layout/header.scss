@@ -1,13 +1,18 @@
 .header {
+    padding-top: 15px;
+    padding-left: 25px;
+    width: 380px;
     &__nav {
-
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 }
-.nav {
-    &__garage_btn {
+// .nav {
+//     &__garage_btn {
 
-    }
-    &__winners_btn {
+//     }
+//     &__winners_btn {
         
-    }
-}
+//     }
+// }

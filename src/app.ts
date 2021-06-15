@@ -12,7 +12,7 @@ export class App {
     private HEADER: Header;
     private CONTROL_PANEL: ControlPanel;
     private GARAGE: Garage;
-    private selectCar: number = -1;
+    private selectCar: number = 1;
 
     constructor () {
         this.APP = document.createElement("div");
@@ -23,14 +23,14 @@ export class App {
         this.GARAGE = new Garage();
     }
     
-    init():HTMLElement {
+    public init():HTMLElement {
         this.APP.appendChild( this.HEADER.init() );
         this.APP.appendChild( this.CONTROL_PANEL.init() );
         this.APP.appendChild( this.GARAGE.init() );
 
         this.eventListenerForHeader();
         this.eventListenerForControlPanel();
-        this.eventListenerForMachine(this.GARAGE);
+        this.eventListenerForGarage();
 
         return this.APP;
     }
@@ -46,49 +46,103 @@ export class App {
         this.CONTROL_PANEL.layout.addEventListener("click", () => {
             const target = event.target as HTMLElement;
             if(this.CONTROL_PANEL.buttons.create_car_input__btn.contains(target)){
-                control_panel.createCar( this.CONTROL_PANEL.getCreateCarName(),
-                                         this.CONTROL_PANEL.getCreateCarColor() );
-                this.GARAGE.update();   
-            }  
-            if(this.CONTROL_PANEL.buttons.update_car_input__btn.contains(target)) {
-                control_panel.updateCar( this.selectCar, 
-                    this.CONTROL_PANEL.getUpdateCarName(),
-                    this.CONTROL_PANEL.getUpdateCarColor() );
+                control_panel.createCar(
+                    this.CONTROL_PANEL.getCreateCarName(),
+                    this.CONTROL_PANEL.getCreateCarColor()
+                );
+
                 this.GARAGE.update();
             }
-                
-            if(this.CONTROL_PANEL.buttons.control_panel__btn_race.contains(target))  control_panel.startRace();
-            if(this.CONTROL_PANEL.buttons.control_panel__btn_reset.contains(target))  control_panel.reset();
-            if(this.CONTROL_PANEL.buttons.control_panel__btn_generate_cars.contains(target))  control_panel.generateCars();
+            if(this.CONTROL_PANEL.buttons.update_car_input__btn.contains(target)){
+                control_panel.updateCar(
+                    this.selectCar, 
+                    this.CONTROL_PANEL.getUpdateCarName(),
+                    this.CONTROL_PANEL.getUpdateCarColor()
+                );
+                const btn_update = document.querySelector(".update_car_input__btn") as HTMLButtonElement;
+                this.selectCar = -1;
+                btn_update.disabled = true;
+                this.GARAGE.update();
+            }
+            if(this.CONTROL_PANEL.buttons.control_panel__btn_race.contains(target)){
+                control_panel.startRace();
+            }
+            if(this.CONTROL_PANEL.buttons.control_panel__btn_reset.contains(target)){
+                control_panel.reset();
+            }
         })
     }
-    private eventListenerForMachine(garage: Garage):void {
-        if(!garage.OK){
-            setTimeout(
-               () => { this.eventListenerForMachine(garage) } , 
-            200)
-        }
-        else {
-            garage.arrMachine.forEach((machine, i, arr)=> {
-                machine.layout.addEventListener("click", () => {
-                    const target = event.target as HTMLElement;
-    
-                    if(machine.buttons.buttonRemove.contains(target)){
-                        car.deleteCar(machine.ID);
-                        //this.GARAGE.update();
-                    }  
-                    if(machine.buttons.buttonSelect.contains(target)){
-                        this.selectCar = machine.ID;
-                        const btnSelect =  document.querySelector(".update_car_input__btn") as HTMLButtonElement;
-                        btnSelect.disabled = false;
-                        console.log(this.selectCar)
-                    }  
-                    if(machine.buttons.control_btns__A.contains(target))  car.startEngine(machine.ID);
-                    if(machine.buttons.control_btns__B.contains(target))  car.stopEngine(machine.ID);
+    private eventListenerForGarage():void {
+        this.GARAGE.layout.addEventListener("click", () => {
+            const target = event.target as HTMLElement; 
+
+            const machines = document.querySelectorAll(".machine");
+            this.eventListenerForMachine(machines, target);
+
+            const buttonBackPage = document.querySelector(".buttons_for_pages__back") as HTMLButtonElement;
+            const buttonNextPage = document.querySelector(".buttons_for_pages__next") as HTMLButtonElement;
+
+            if(buttonBackPage.contains(target)){
+                this.GARAGE.backPage();
+                this.GARAGE.update();
+            }
+            if(buttonNextPage.contains(target)){
+                this.GARAGE.nextPage();
+                this.GARAGE.update();
+            }
+        })
+    }
+
+    private eventListenerForMachine(machines: NodeListOf<Element>, target:HTMLElement){
+        machines.forEach( async (item) =>{
+            const buttonSelect = item.querySelector(".machine__btn-select") as HTMLButtonElement;
+            const buttonRemove = item.querySelector(".machine__btn-remove") as HTMLButtonElement;
+            const buttonStart = item.querySelector(".control_btns__A") as HTMLButtonElement;
+            const buttonStop = item.querySelector(".control_btns__B") as HTMLButtonElement;
+
+            if(buttonSelect.contains(target)) {
+                const btn_update = document.querySelector(".update_car_input__btn") as HTMLButtonElement;
+                btn_update.disabled = false;
+                console.log(item.id);
+                this.selectCar = Number(item.id);
+            }
+            if(buttonRemove.contains(target)) {
+                car.deleteCar( Number(item.id) );
+                this.GARAGE.update();
+                if(Number(item.id) === this.selectCar) {
+                    this.selectCar = -1;
+                    const btn_update = document.querySelector(".update_car_input__btn") as HTMLButtonElement;
+                    btn_update.disabled = true;
+                }
+            }
+            if(buttonStart.contains(target)) {
+                buttonStart.disabled = true;
+                car.startEngine( Number(item.id),).then( (res:{velocity: number, distance: number})=>{
+                    buttonStop.disabled = false;
+                    const machine_svg = item.querySelector(".machine__svg") as HTMLElement;
+                    machine_svg.style.animationPlayState = "running";
+                    machine_svg.style.animationDuration = `${ (res.distance / res.velocity)/1000 }s`;
+                    machine_svg.style.animationName = "anim";
+                    let success = car.carSuccess( Number(item.id) )
+                    success.then ( (success)=> {
+                        console.log(success)
+                    })
+                    success.catch( ()=> {
+                        const machine_svg = item.querySelector(".machine__svg") as HTMLElement;
+                        machine_svg.style.animationPlayState = "paused";
+                    })
                 });
-            })
-        }
+
+            }
+            if(buttonStop.contains(target)) {
+                buttonStop.disabled = true;
+                car.stopEngine( Number(item.id) ).then( ()=>{
+                    buttonStart.disabled = false;
+                    const machine_svg = item.querySelector(".machine__svg") as HTMLElement;
+                    machine_svg.style.animationName = "none";
+                })
+            }
+        })
     }
 }
 
-///Кривой update сдулай sucs

@@ -56,11 +56,13 @@ export class ControlPanel {
     private drawButtons():void {
         const control_panel__buttons = createAndAppendHtmlElement( this.control_panel, "div", "control_panel__buttons" );
         const control_panel__btn_race = createAndAppendHtmlElement( control_panel__buttons, "button", "control_panel__btn_race", "RACE" );
-        const control_panel__btn_reset = createAndAppendHtmlElement( control_panel__buttons, "button", "control_panel__btn_reset", "RESET" );
+        const control_panel__btn_reset = createAndAppendHtmlElement( control_panel__buttons, "button", "control_panel__btn_reset", "RESET" ) as HTMLButtonElement; 
         const control_panel__btn_generate_cars = createAndAppendHtmlElement( control_panel__buttons, "button", "control_panel__btn_generate_cars", "GENERATE CARS" );
         control_panel__btn_race.classList.add("button");
         control_panel__btn_reset.classList.add("button");
         control_panel__btn_generate_cars.classList.add("button");
+
+        control_panel__btn_reset.disabled = true;
 
         this.BUTTONS.control_panel__btn_race = control_panel__btn_race;
         this.BUTTONS.control_panel__btn_reset = control_panel__btn_reset;

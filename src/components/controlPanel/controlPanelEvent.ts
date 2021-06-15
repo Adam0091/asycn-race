@@ -14,10 +14,28 @@ export function updateCar(selectID: number, name:string, color:string) {
     }))
 }
 export function startRace() {
-    console.log(" start race ");
+    const machines = document.querySelectorAll(".machine")
+    machines.forEach( (item) => {
+        const buttonStart = item.querySelector(".control_btns__A") as HTMLButtonElement;
+        const buttonRace =  document.querySelector(".control_panel__btn_race") as HTMLButtonElement;
+        const buttonReset =  document.querySelector(".control_panel__btn_reset") as HTMLButtonElement;
+        buttonRace.disabled = true;
+        buttonReset.disabled = false;
+
+        buttonStart.click();
+    })
 }
 export function reset() {
-    console.log("reset");
+    const machines = document.querySelectorAll(".machine")
+    machines.forEach( (item) => {
+        const buttonStop = item.querySelector(".control_btns__B") as HTMLButtonElement;
+        const buttonRace =  document.querySelector(".control_panel__btn_race") as HTMLButtonElement;
+        const buttonReset =  document.querySelector(".control_panel__btn_reset") as HTMLButtonElement;
+        buttonRace.disabled = false;
+        buttonReset.disabled = true;
+
+        buttonStop.click()
+    })
 }
 export function generateCars() {
     console.log("generate cars");

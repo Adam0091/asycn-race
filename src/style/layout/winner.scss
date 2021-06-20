@@ -1,0 +1,27 @@
+.winner {
+    display: flex;
+    &__item {
+        font-size: 15px;
+        min-width: 60px;
+        color: white;
+        padding: 4px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &__number {
+
+    }
+    &__car {
+
+    }
+    &__name {
+        min-width: 150px;
+    }
+    &__wins {
+
+    }
+    &__best_time {
+
+    }
+}

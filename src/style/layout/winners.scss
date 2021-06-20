@@ -1,0 +1,51 @@
+.winners {
+    padding-top: 15px;
+    padding-left: 25px;
+    &__title {
+        
+    }
+    &__count {
+
+    }
+    &__page {
+
+    }
+    &__list {
+        margin-top: 20px;
+        
+    }
+    &__buttons_for_pages {
+        margin-top: 20px;
+    }
+}
+.list{
+    &__list_header{
+        display: flex;
+    }
+}
+.list_header {
+    &__item{
+        min-width: 60px;
+        background-color: rgb(122, 122, 233);
+        color: white;
+        padding: 4px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+       
+    }
+    &__number {
+    }
+    &__car {
+
+    }
+    &__name {
+        min-width: 150px;
+    }
+    &__wins {
+        cursor: pointer;
+    }
+    &__best_time {
+        cursor: pointer;
+    }
+}

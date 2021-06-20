@@ -15,13 +15,14 @@ export class Garage {
         this.drawTitle();
         this.getCarsServer().then((resolve) => {
             this.drawListMachines(resolve);
+            this.drawWinner();
             this.drawButtonsForPages()
         });
         return this.garage;
     }
     private drawTitle():void {
         createAndAppendHtmlElement(this.garage, "h2", "garage__title", `${ ConstText.garage__title } (${ 0 }) ` );
-        createAndAppendHtmlElement(this.garage, "h3", "garage__page", `${ ConstText.garage__page } (${ this.number_page }) ` );
+        createAndAppendHtmlElement(this.garage, "h3", "garage__page", `${ ConstText.page } (${ this.number_page }) ` );
     }
     private async getCarsServer() {
         const cars = await sendRequest('GET', ConstURL.garageURL);
@@ -64,7 +65,11 @@ export class Garage {
     }
     private updateTitle(cars:Array<{id:number,name:string,color:string}>):void {
         document.querySelector(".garage__title").innerHTML = `${ ConstText.garage__title } (${ cars.length }) `;
-        document.querySelector(".garage__page").innerHTML = `${ ConstText.garage__page } (${ this.number_page }) `;
+        document.querySelector(".garage__page").innerHTML = `${ ConstText.page } (${ this.number_page }) `;
+    }
+    private drawWinner() {
+        const garage__list = document.querySelector(".garage__list") as HTMLElement;
+        const garage__winner = createAndAppendHtmlElement(garage__list, "div", "garage__winner", "Здесь будет победитель");
     }
     private updateGarageList(cars:Array<{id:number,name:string,color:string}>):void {
         const garage__list = document.querySelector(".garage__list") as HTMLElement;
@@ -80,7 +85,7 @@ export class Garage {
             const MACHINE = new Machine(cars[i].id, cars[i].name, cars[i].color);
             garage__item.appendChild( MACHINE.init() );
         }
-
+        this.drawWinner();
     }
     private updateButtonsForPages():void {
         const buttons_for_pages__back = document.querySelector(".buttons_for_pages__back") as HTMLButtonElement;

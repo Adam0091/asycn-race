@@ -1,14 +1,26 @@
 .garage {
+
     padding-top: 15px;
     padding-left: 25px;
     &__title {
 
     }
+    &__winner {
+        visibility: hidden;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: #ffffff;
+        font-size: calc(1em + 3vw);
+        font-weight: 500;
+        line-height: calc(1em + 1vw);
+        transform: translate(-50%, -50%);
+    }
     &__page {
 
     }
     &__list {
-
+        position: relative;
     }
     &__item {
         
